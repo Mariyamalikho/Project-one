@@ -44,7 +44,7 @@ export interface CharacterProfile {
   id: CharacterId;
   name: string;
   role: string;
-  portrait: string;
+  portrait: 'fractured-halo' | 'memory-orbit' | 'daemon-core';
   color: string;
   summary: string;
   secrets: string[];

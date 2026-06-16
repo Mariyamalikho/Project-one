@@ -1,5 +1,5 @@
 import { createContext, useContext, useEffect, useMemo, useReducer, useState } from 'react';
-import { achievements, dialogue } from '../data/world';
+import { achievements, dialogue, episodes } from '../data/world';
 import type { GameAction, GameState } from '../types';
 import { clearState, defaultState, loadState, saveState } from './storage';
 
@@ -16,13 +16,20 @@ function unique<T>(items: T[]) {
   return Array.from(new Set(items));
 }
 
+function episodeIdForLocation(location?: string) {
+  return episodes.find((episode) => episode.location === location)?.id;
+}
+
 function reducer(state: GameState, action: GameAction): GameState {
   switch (action.type) {
     case 'ADVANCE': {
+      const currentLine = dialogue[state.currentLineId];
       const line = dialogue[action.lineId];
+      const completedEpisodeId = currentLine?.location !== line?.location ? episodeIdForLocation(currentLine?.location) : undefined;
       return {
         ...state,
         currentLineId: action.lineId,
+        completedEpisodes: completedEpisodeId ? unique([...state.completedEpisodes, completedEpisodeId]) : state.completedEpisodes,
         visitedLocations: line ? unique([...state.visitedLocations, line.location]) : state.visitedLocations,
         unlockedMemories: line?.unlockMemory ? unique([...state.unlockedMemories, line.unlockMemory]) : state.unlockedMemories,
         unlockedAchievements: line?.unlockAchievement
@@ -31,7 +38,10 @@ function reducer(state: GameState, action: GameAction): GameState {
       };
     }
     case 'CHOOSE': {
+      const currentLine = dialogue[state.currentLineId];
       const nextLine = dialogue[action.choice.next];
+      const completedEpisodeId =
+        currentLine?.location !== nextLine?.location ? episodeIdForLocation(currentLine?.location) : undefined;
       const emotion = { ...state.emotion };
       Object.entries(action.choice.emotion ?? {}).forEach(([key, value]) => {
         const emotionKey = key as keyof GameState['emotion'];
@@ -40,6 +50,7 @@ function reducer(state: GameState, action: GameAction): GameState {
       return {
         ...state,
         currentLineId: action.choice.next,
+        completedEpisodes: completedEpisodeId ? unique([...state.completedEpisodes, completedEpisodeId]) : state.completedEpisodes,
         emotion,
         visitedLocations: nextLine ? unique([...state.visitedLocations, nextLine.location]) : state.visitedLocations,
         unlockedMemories: action.choice.unlockMemory

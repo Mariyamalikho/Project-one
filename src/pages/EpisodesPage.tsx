@@ -1,4 +1,4 @@
-import { Lock, Play } from 'lucide-react';
+import { CheckCircle2, Lock, Play } from 'lucide-react';
 import { Link } from 'react-router-dom';
 import { episodes } from '../data/world';
 import { useGame } from '../state/GameProvider';
@@ -11,6 +11,7 @@ export function EpisodesPage() {
       <div className="grid gap-4 md:grid-cols-2 xl:grid-cols-3">
         {episodes.map((episode, index) => {
           const locked = Boolean(episode.requiredEpisode && !state.completedEpisodes.includes(episode.requiredEpisode));
+          const completed = state.completedEpisodes.includes(episode.id);
           return (
             <article key={episode.id} className={`holo-panel p-5 ${locked ? 'opacity-55' : ''}`}>
               <p className="text-xs uppercase tracking-[0.3em] text-cyan">chapter {String(index + 1).padStart(2, '0')}</p>
@@ -22,8 +23,8 @@ export function EpisodesPage() {
                 onClick={() => !locked && dispatch({ type: 'ADVANCE', lineId: episode.startLine })}
                 className="mt-6 inline-flex items-center gap-2 rounded border border-cyan/40 px-4 py-2 text-sm text-cyan hover:bg-cyan/10"
               >
-                {locked ? <Lock size={16} /> : <Play size={16} />}
-                {locked ? 'Locked' : 'Launch'}
+                {locked ? <Lock size={16} /> : completed ? <CheckCircle2 size={16} /> : <Play size={16} />}
+                {locked ? 'Locked' : completed ? 'Replay' : 'Launch'}
               </Link>
             </article>
           );

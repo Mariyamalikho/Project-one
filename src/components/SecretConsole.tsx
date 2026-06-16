@@ -5,8 +5,10 @@ import { useNavigate } from 'react-router-dom';
 import { useGame } from '../state/GameProvider';
 
 const responses: Record<string, string> = {
-  EVA: 'EVA_PROCESS: not missing. nested.',
-  MERCI: 'MERCI_USER: elevated permissions require self-compassion.',
+  EVA: 'MARRY_PROCESS: not missing. nested. alias EVA accepted.',
+  MARRY: 'MARRY_PROCESS: not missing. nested.',
+  MERCI: 'EVAA_USER: elevated permissions require self-compassion. alias MERCI accepted.',
+  EVAA: 'EVAA_USER: elevated permissions require self-compassion.',
   REBOOT: 'LOCAL_SAVE: reset command armed.',
   HOME: 'ROUTE: landing sequence restored.',
   ARCHIVE: 'ROUTE: character archive exposed.',
@@ -14,7 +16,7 @@ const responses: Record<string, string> = {
 
 export function SecretConsole({ open, onClose }: { open: boolean; onClose: () => void }) {
   const [input, setInput] = useState('');
-  const [log, setLog] = useState<string[]>(['console ready. commands: EVA / MERCI / REBOOT / HOME / ARCHIVE']);
+  const [log, setLog] = useState<string[]>(['console ready. commands: MARRY / EVAA / REBOOT / HOME / ARCHIVE']);
   const navigate = useNavigate();
   const { reset } = useGame();
 

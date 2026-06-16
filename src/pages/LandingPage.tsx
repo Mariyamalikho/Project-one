@@ -1,5 +1,6 @@
 import { motion, useScroll, useTransform } from 'framer-motion';
-import { Play, Settings } from 'lucide-react';
+import { CircuitBoard, Play, Settings } from 'lucide-react';
+import { useState } from 'react';
 import { Link } from 'react-router-dom';
 
 function DigitalRain() {
@@ -15,7 +16,7 @@ function DigitalRain() {
             animationDuration: `${1.2 + (index % 6) * 0.2}s`,
           }}
         >
-          0101 EVA MERCI NULL
+          0101 MARRY EVAA NULL
         </span>
       ))}
     </div>
@@ -44,6 +45,8 @@ export function LandingPage() {
   const { scrollY } = useScroll();
   const y = useTransform(scrollY, [0, 600], [0, 90]);
   const titleY = useTransform(scrollY, [0, 500], [0, -55]);
+  const [signal, setSignal] = useState('touch a fragment');
+  const fragments = ['Evaa awake', 'Marry nested', 'Bot watching', 'memory door open'];
 
   return (
     <section className="relative min-h-screen overflow-hidden">
@@ -59,7 +62,7 @@ export function LandingPage() {
             glitch.exe
           </h1>
           <p className="mt-6 max-w-2xl text-lg text-slate-200 md:text-2xl">
-            Follow Merci through a fractured cyberpunk reality where a mysterious child named Eva waits inside every deleted feeling.
+            Follow Evaa through a fractured cyberpunk reality where a mysterious child named Marry waits inside every deleted feeling.
           </p>
           <div className="mt-9 flex flex-wrap gap-3">
             <Link to="/story" className="primary-cta">
@@ -70,6 +73,20 @@ export function LandingPage() {
               <Settings size={20} aria-hidden />
               <span>Settings</span>
             </Link>
+          </div>
+          <div className="landing-console mt-8 max-w-3xl">
+            <div className="flex items-center gap-2 border-b border-white/10 px-4 py-3 text-cyan">
+              <CircuitBoard size={17} aria-hidden />
+              <span className="font-display text-xs uppercase tracking-[0.22em]">pre-boot signal</span>
+              <span className="ml-auto font-mono text-xs text-acid">{signal}</span>
+            </div>
+            <div className="grid gap-2 p-3 sm:grid-cols-4">
+              {fragments.map((fragment) => (
+                <button key={fragment} type="button" className="signal-fragment" onClick={() => setSignal(fragment)}>
+                  {fragment}
+                </button>
+              ))}
+            </div>
           </div>
         </motion.div>
       </div>

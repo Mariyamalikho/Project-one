@@ -1,4 +1,5 @@
 import { LockKeyhole } from 'lucide-react';
+import type { CSSProperties } from 'react';
 import { characters } from '../data/world';
 import { useGame } from '../state/GameProvider';
 
@@ -12,8 +13,17 @@ export function ArchivePage() {
         {characters.map((character) => (
           <article key={character.id} className="holo-panel p-5">
             <div className="flex items-center gap-4">
-              <div className="grid h-20 w-20 place-items-center rounded border text-4xl font-black" style={{ borderColor: character.color, color: character.color }}>
-                {character.portrait}
+              <div
+                className={`archive-avatar portrait-${character.portrait}`}
+                style={{ '--portrait-color': character.color } as CSSProperties}
+                aria-hidden
+              >
+                <span className="avatar-ring avatar-ring-a" />
+                <span className="avatar-face">
+                  <span className="avatar-eye avatar-eye-left" />
+                  <span className="avatar-eye avatar-eye-right" />
+                  <span className="avatar-mark" />
+                </span>
               </div>
               <div>
                 <h2 className="font-display text-2xl" style={{ color: character.color }}>
