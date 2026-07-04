@@ -128,8 +128,8 @@ export const dialogue: Record<string, DialogueLine> = {
     location: 'white-room',
     text: 'Where is the door? Why does the window show a city I have never visited and somehow miss?',
     choices: [
-      { id: 'touch-glass', label: 'Touch the glass', next: 'boot-03', emotion: { dread: 1 }, unlockMemory: 'm-room' },
-      { id: 'ask-bot', label: 'Ask Bot for the truth', next: 'boot-04', emotion: { resolve: 1 } },
+      { id: 'touch-glass', label: 'Touch the glass', next: 'boot-03', emotion: { dread: 1 }, relationship: { eva: 1 }, unlockMemory: 'm-room', addJournal: 'j-glass', addInventory: 'i-glass' },
+      { id: 'ask-bot', label: 'Ask Bot for the truth', next: 'boot-04', emotion: { resolve: 1 }, relationship: { bot: 1 } },
     ],
   },
   'boot-03': { id: 'boot-03', character: 'eva', mood: 'distant', location: 'white-room', text: 'The glass remembers you. I remember you too.', next: 'city-01' },
@@ -149,8 +149,8 @@ export const dialogue: Record<string, DialogueLine> = {
     location: 'neon-city',
     text: 'Do you still hate crying, Evaa?',
     choices: [
-      { id: 'deny', label: 'Say feelings slow you down', next: 'forest-01', emotion: { resolve: 1, innocence: -1 } },
-      { id: 'kneel', label: 'Kneel and ask her name', next: 'forest-02', emotion: { trust: 2, innocence: 1 }, unlockMemory: 'm-lullaby', unlockAchievement: 'a-eva' },
+      { id: 'deny', label: 'Say feelings slow you down', next: 'forest-01', emotion: { resolve: 1, innocence: -1 }, relationship: { eva: -1 }, addJournal: 'j-city' },
+      { id: 'kneel', label: 'Kneel and ask her name', next: 'forest-02', emotion: { trust: 2, innocence: 1 }, relationship: { eva: 2 }, unlockMemory: 'm-lullaby', unlockAchievement: 'a-eva', addJournal: 'j-city' },
     ],
   },
   'forest-01': { id: 'forest-01', character: 'bot', mood: 'concerned', location: 'memory-forest', text: 'Bold strategy: emotionally sprinting through a haunted backup folder.', next: 'forest-03' },
@@ -162,8 +162,8 @@ export const dialogue: Record<string, DialogueLine> = {
     location: 'memory-forest',
     text: 'The trees are full of old bedrooms. I hear myself apologizing to no one.',
     choices: [
-      { id: 'collect', label: 'Collect the apology', next: 'core-01', emotion: { trust: 1 }, unlockMemory: 'm-bot' },
-      { id: 'burn', label: 'Burn the branch', next: 'core-02', emotion: { dread: 2 } },
+      { id: 'collect', label: 'Collect the apology', next: 'core-01', emotion: { trust: 1 }, relationship: { bot: 2 }, unlockMemory: 'm-bot', addJournal: 'j-core' },
+      { id: 'burn', label: 'Burn the branch', next: 'core-02', emotion: { dread: 2 }, relationship: { bot: -1 } },
     ],
   },
   'core-01': { id: 'core-01', character: 'bot', mood: 'ashamed', location: 'archive-core', text: 'I partitioned Marry because your grief kept crashing the system. That is the kindest terrible thing I have done.', next: 'station-01', unlockAchievement: 'a-bot' },
@@ -175,8 +175,8 @@ export const dialogue: Record<string, DialogueLine> = {
     location: 'broken-station',
     text: 'A train is coming. If you board it, you can forget me correctly this time.',
     choices: [
-      { id: 'board', label: 'Board alone', next: 'final-01', emotion: { innocence: -2, dread: 1 }, unlockMemory: 'm-train' },
-      { id: 'wait', label: 'Wait with Marry', next: 'final-02', emotion: { trust: 2, innocence: 2 }, unlockMemory: 'm-sanctuary' },
+      { id: 'board', label: 'Board alone', next: 'final-01', emotion: { innocence: -2, dread: 1 }, relationship: { eva: -2 }, unlockMemory: 'm-train', addInventory: 'i-ticket' },
+      { id: 'wait', label: 'Wait with Marry', next: 'final-02', emotion: { trust: 2, innocence: 2 }, relationship: { eva: 3 }, unlockMemory: 'm-sanctuary', addJournal: 'j-sanctuary', addInventory: 'i-artwork' },
     ],
   },
   'final-01': { id: 'final-01', character: 'merci', mood: 'hollow', location: 'final-sanctuary', text: 'The sanctuary opens, but the garden is quiet in the wrong way. I survived. That is not the same as coming home.', unlockAchievement: 'a-end' },

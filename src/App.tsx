@@ -1,20 +1,29 @@
 import { AnimatePresence, motion } from 'framer-motion';
 import { NavLink, Route, Routes, useLocation } from 'react-router-dom';
-import { Archive, Award, Map, Menu, MonitorCog, Sparkles, Volume2, VolumeX } from 'lucide-react';
-import { useState } from 'react';
+import { Archive, Award, BookOpen, Briefcase, GitBranch, Map, Menu, MonitorCog, Save, Sparkles, Volume2, VolumeX } from 'lucide-react';
+import { lazy, Suspense, useState } from 'react';
 import { AchievementToast } from './components/AchievementToast';
 import { AmbientAudio } from './components/AmbientAudio';
+import { BootSequence } from './components/BootSequence';
 import { ErrorBoundary } from './components/ErrorBoundary';
+import { GlitchOverlay } from './components/GlitchOverlay';
+import { LoadingScreen } from './components/LoadingScreen';
+import { OSFrame } from './components/OSFrame';
 import { SecretConsole } from './components/SecretConsole';
 import { useGame } from './state/GameProvider';
-import { ArchivePage } from './pages/ArchivePage';
-import { AchievementsPage } from './pages/AchievementsPage';
-import { EpisodesPage } from './pages/EpisodesPage';
-import { LandingPage } from './pages/LandingPage';
-import { MemoryPage } from './pages/MemoryPage';
-import { SettingsPage } from './pages/SettingsPage';
-import { StoryPage } from './pages/StoryPage';
-import { WorldMapPage } from './pages/WorldMapPage';
+
+const ArchivePage = lazy(() => import('./pages/ArchivePage').then((module) => ({ default: module.ArchivePage })));
+const AchievementsPage = lazy(() => import('./pages/AchievementsPage').then((module) => ({ default: module.AchievementsPage })));
+const EpisodesPage = lazy(() => import('./pages/EpisodesPage').then((module) => ({ default: module.EpisodesPage })));
+const InventoryPage = lazy(() => import('./pages/InventoryPage').then((module) => ({ default: module.InventoryPage })));
+const JournalPage = lazy(() => import('./pages/JournalPage').then((module) => ({ default: module.JournalPage })));
+const LandingPage = lazy(() => import('./pages/LandingPage').then((module) => ({ default: module.LandingPage })));
+const MemoryPage = lazy(() => import('./pages/MemoryPage').then((module) => ({ default: module.MemoryPage })));
+const RelationshipsPage = lazy(() => import('./pages/RelationshipsPage').then((module) => ({ default: module.RelationshipsPage })));
+const SaveSlotsPage = lazy(() => import('./pages/SaveSlotsPage').then((module) => ({ default: module.SaveSlotsPage })));
+const SettingsPage = lazy(() => import('./pages/SettingsPage').then((module) => ({ default: module.SettingsPage })));
+const StoryPage = lazy(() => import('./pages/StoryPage').then((module) => ({ default: module.StoryPage })));
+const WorldMapPage = lazy(() => import('./pages/WorldMapPage').then((module) => ({ default: module.WorldMapPage })));
 
 const navItems = [
   { to: '/story', label: 'Story', icon: Sparkles },
@@ -22,6 +31,10 @@ const navItems = [
   { to: '/map', label: 'Map', icon: Map },
   { to: '/archive', label: 'Archive', icon: Archive },
   { to: '/memories', label: 'Memories', icon: MonitorCog },
+  { to: '/journal', label: 'Journal', icon: BookOpen },
+  { to: '/inventory', label: 'Inventory', icon: Briefcase },
+  { to: '/relationships', label: 'Links', icon: GitBranch },
+  { to: '/saves', label: 'Saves', icon: Save },
   { to: '/achievements', label: 'Signals', icon: Award },
 ];
 
@@ -33,8 +46,9 @@ export function App() {
 
   return (
     <ErrorBoundary>
-      <div className="min-h-screen overflow-x-hidden bg-void text-slate-100 selection:bg-cyan/30">
+      <div className={`min-h-screen overflow-x-hidden bg-void text-slate-100 selection:bg-cyan/30 ${state.settings.highContrast ? 'high-contrast' : ''} ${state.settings.cursorFx ? 'cursor-layer' : ''}`}>
         <div className="fixed inset-0 pointer-events-none bg-[radial-gradient(circle_at_25%_20%,rgba(49,247,255,.18),transparent_28%),radial-gradient(circle_at_80%_10%,rgba(255,43,214,.16),transparent_26%),linear-gradient(180deg,#05050a,#090817_55%,#05050a)]" />
+        {!isLanding && <OSFrame />}
         <div className="scanlines pointer-events-none fixed inset-0 z-50 opacity-30" />
         {!isLanding && (
           <header className="fixed inset-x-0 top-0 z-40 border-b border-white/10 bg-void/70 backdrop-blur-xl">
@@ -73,8 +87,8 @@ export function App() {
           </header>
         )}
         {!isLanding && (
-          <nav className="fixed inset-x-0 bottom-0 z-40 grid grid-cols-6 border-t border-white/10 bg-void/85 backdrop-blur-xl md:hidden">
-            {navItems.map((item) => (
+          <nav className="fixed inset-x-0 bottom-0 z-40 grid grid-cols-5 border-t border-white/10 bg-void/85 backdrop-blur-xl md:hidden">
+            {navItems.slice(0, 5).map((item) => (
               <NavLink
                 key={item.to}
                 to={item.to}
@@ -98,18 +112,26 @@ export function App() {
             transition={{ duration: state.settings.reduceMotion ? 0.01 : 0.35 }}
             className={isLanding ? '' : 'relative z-10 mx-auto min-h-screen max-w-7xl px-4 pb-16 pt-24'}
           >
-            <Routes location={location}>
-              <Route path="/" element={<LandingPage />} />
-              <Route path="/story" element={<StoryPage />} />
-              <Route path="/episodes" element={<EpisodesPage />} />
-              <Route path="/map" element={<WorldMapPage />} />
-              <Route path="/archive" element={<ArchivePage />} />
-              <Route path="/memories" element={<MemoryPage />} />
-              <Route path="/achievements" element={<AchievementsPage />} />
-              <Route path="/settings" element={<SettingsPage />} />
-            </Routes>
+            <Suspense fallback={<LoadingScreen />}>
+              <Routes location={location}>
+                <Route path="/" element={<LandingPage />} />
+                <Route path="/story" element={<StoryPage />} />
+                <Route path="/episodes" element={<EpisodesPage />} />
+                <Route path="/map" element={<WorldMapPage />} />
+                <Route path="/archive" element={<ArchivePage />} />
+                <Route path="/memories" element={<MemoryPage />} />
+                <Route path="/journal" element={<JournalPage />} />
+                <Route path="/inventory" element={<InventoryPage />} />
+                <Route path="/relationships" element={<RelationshipsPage />} />
+                <Route path="/saves" element={<SaveSlotsPage />} />
+                <Route path="/achievements" element={<AchievementsPage />} />
+                <Route path="/settings" element={<SettingsPage />} />
+              </Routes>
+            </Suspense>
           </motion.main>
         </AnimatePresence>
+        <BootSequence />
+        <GlitchOverlay />
         <AmbientAudio />
         <AchievementToast />
         <SecretConsole open={consoleOpen} onClose={() => setConsoleOpen(false)} />

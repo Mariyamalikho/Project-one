@@ -8,13 +8,13 @@ import { characters, dialogue, episodes } from '../data/world';
 import type { LocationId } from '../types';
 import { useGame } from '../state/GameProvider';
 
-const sceneArtifacts: Record<LocationId, Array<{ id: string; label: string; x: number; y: number; memory?: string }>> = {
+const sceneArtifacts: Record<LocationId, Array<{ id: string; label: string; x: number; y: number; memory?: string; journal?: string; item?: string }>> = {
   'white-room': [
-    { id: 'glass', label: 'scan glass handprint', x: 70, y: 22, memory: 'm-room' },
+    { id: 'glass', label: 'scan glass handprint', x: 70, y: 22, memory: 'm-room', journal: 'j-glass', item: 'i-glass' },
     { id: 'bed', label: 'inspect empty bed', x: 24, y: 58 },
   ],
   'neon-city': [
-    { id: 'billboard', label: 'read broken billboard', x: 63, y: 28, memory: 'm-lullaby' },
+    { id: 'billboard', label: 'read broken billboard', x: 63, y: 28, memory: 'm-lullaby', journal: 'j-city' },
     { id: 'rain', label: 'catch upward rain', x: 34, y: 46 },
   ],
   'memory-forest': [
@@ -22,15 +22,15 @@ const sceneArtifacts: Record<LocationId, Array<{ id: string; label: string; x: n
     { id: 'swing', label: 'touch old swing', x: 72, y: 64 },
   ],
   'archive-core': [
-    { id: 'terminal', label: 'decrypt apology log', x: 52, y: 29, memory: 'm-bot' },
+    { id: 'terminal', label: 'decrypt apology log', x: 52, y: 29, memory: 'm-bot', journal: 'j-core' },
     { id: 'server', label: 'ping frozen server', x: 78, y: 52 },
   ],
   'broken-station': [
-    { id: 'ticket', label: 'recover platform ticket', x: 30, y: 42, memory: 'm-train' },
+    { id: 'ticket', label: 'recover platform ticket', x: 30, y: 42, memory: 'm-train', item: 'i-ticket' },
     { id: 'clock', label: 'rewind station clock', x: 68, y: 24 },
   ],
   'final-sanctuary': [
-    { id: 'drawing', label: 'restore unsent drawing', x: 58, y: 33, memory: 'm-sanctuary' },
+    { id: 'drawing', label: 'restore unsent drawing', x: 58, y: 33, memory: 'm-sanctuary', journal: 'j-sanctuary', item: 'i-artwork' },
     { id: 'moon', label: 'steady paper moon', x: 38, y: 22 },
   ],
 };
@@ -58,6 +58,8 @@ export function StoryPage() {
   function scanArtifact(artifact: (typeof artifacts)[number]) {
     setScanned((items) => (items.includes(artifact.id) ? items : [...items, artifact.id]));
     if (artifact.memory) dispatch({ type: 'UNLOCK_MEMORY', memoryId: artifact.memory });
+    if (artifact.journal) dispatch({ type: 'ADD_JOURNAL', entryId: artifact.journal });
+    if (artifact.item) dispatch({ type: 'ADD_INVENTORY', itemId: artifact.item });
   }
 
   return (

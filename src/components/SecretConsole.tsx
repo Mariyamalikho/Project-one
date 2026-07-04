@@ -2,6 +2,8 @@ import { AnimatePresence, motion } from 'framer-motion';
 import { CornerDownLeft, X } from 'lucide-react';
 import { FormEvent, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
+import { easterEggs } from '../data/os';
+import { memories } from '../data/world';
 import { useGame } from '../state/GameProvider';
 
 const responses: Record<string, string> = {
@@ -16,18 +18,34 @@ const responses: Record<string, string> = {
 
 export function SecretConsole({ open, onClose }: { open: boolean; onClose: () => void }) {
   const [input, setInput] = useState('');
-  const [log, setLog] = useState<string[]>(['console ready. commands: MARRY / EVAA / REBOOT / HOME / ARCHIVE']);
+  const [log, setLog] = useState<string[]>(['console ready. type HELP']);
   const navigate = useNavigate();
-  const { reset } = useGame();
+  const { state, dispatch, reset } = useGame();
 
   function submit(event: FormEvent) {
     event.preventDefault();
     const command = input.trim().toUpperCase();
     if (!command) return;
     setInput('');
-    setLog((items) => [...items, `> ${command}`, responses[command] ?? 'UNKNOWN_COMMAND: static answers in your voice.']);
+    const dynamicResponses: Record<string, string> = {
+      HELP: 'commands: help, scan, decrypt, recover, archive, map, saves, memories, reboot, marry, evaa',
+      SCAN: `scan:${state.currentLineId} memories:${state.unlockedMemories.length} dread:${state.emotion.dread}`,
+      DECRYPT: 'decrypt: archive key accepted. secret artwork restored.',
+      RECOVER: 'recover: journal cache restored.',
+      MAP: 'route: world map exposed.',
+      SAVES: 'route: save slots exposed.',
+      MEMORIES: `memory index: ${memories.map((memory) => memory.id).join(', ')}`,
+      EGG: easterEggs.join(' / '),
+    };
+    const response = dynamicResponses[command] ?? responses[command] ?? 'UNKNOWN_COMMAND: static answers in your voice.';
+    setLog((items) => [...items, `> ${command}`, response]);
+    dispatch({ type: 'LOG_TERMINAL', line: `terminal:${command.toLowerCase()}` });
+    if (command === 'RECOVER') dispatch({ type: 'ADD_JOURNAL', entryId: 'j-core' });
+    if (command === 'DECRYPT') dispatch({ type: 'ADD_INVENTORY', itemId: 'i-artwork' });
     if (command === 'HOME') navigate('/');
     if (command === 'ARCHIVE') navigate('/archive');
+    if (command === 'MAP') navigate('/map');
+    if (command === 'SAVES') navigate('/saves');
     if (command === 'REBOOT') reset();
   }
 

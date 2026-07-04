@@ -15,8 +15,11 @@ export interface Choice {
   label: string;
   next: string;
   emotion?: Partial<Record<EmotionKey, number>>;
+  relationship?: Partial<Record<CharacterId, number>>;
   unlockMemory?: string;
   unlockAchievement?: string;
+  addJournal?: string;
+  addInventory?: string;
 }
 
 export interface DialogueLine {
@@ -75,11 +78,23 @@ export interface Achievement {
   description: string;
 }
 
+export interface SaveSlot {
+  id: string;
+  label: string;
+  savedAt?: string;
+  state?: GameState;
+}
+
 export interface GameState {
   currentLineId: string;
   completedEpisodes: string[];
   unlockedMemories: string[];
   unlockedAchievements: string[];
+  journalEntries: string[];
+  inventory: string[];
+  terminalHistory: string[];
+  activeSlot: string;
+  booted: boolean;
   visitedLocations: LocationId[];
   emotion: Record<EmotionKey, number>;
   relationship: Record<CharacterId, number>;
@@ -88,6 +103,8 @@ export interface GameState {
     muted: boolean;
     volume: number;
     reduceMotion: boolean;
+    highContrast: boolean;
+    cursorFx: boolean;
   };
 }
 
@@ -98,5 +115,10 @@ export type GameAction =
   | { type: 'VISIT_LOCATION'; locationId: LocationId }
   | { type: 'UNLOCK_MEMORY'; memoryId: string }
   | { type: 'UNLOCK_ACHIEVEMENT'; achievementId: string }
+  | { type: 'ADD_JOURNAL'; entryId: string }
+  | { type: 'ADD_INVENTORY'; itemId: string }
+  | { type: 'LOG_TERMINAL'; line: string }
+  | { type: 'SET_BOOTED'; booted: boolean }
+  | { type: 'LOAD_STATE'; state: GameState }
   | { type: 'SET_SETTING'; key: keyof GameState['settings']; value: boolean | number }
   | { type: 'RESET' };

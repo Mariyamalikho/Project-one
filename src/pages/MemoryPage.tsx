@@ -1,4 +1,5 @@
 import { FileAudio, FileImage, FileText, ShieldAlert } from 'lucide-react';
+import { easterEggs } from '../data/os';
 import { memories } from '../data/world';
 import { useGame } from '../state/GameProvider';
 
@@ -14,6 +15,10 @@ export function MemoryPage() {
   return (
     <section>
       <h1 className="page-title">Memory Archive</h1>
+      <div className="mb-5 holo-panel p-4 text-sm text-slate-300">
+        <p className="font-display text-cyan">Hidden collectible routes</p>
+        <p className="mt-2">{easterEggs.join(' / ')}</p>
+      </div>
       <div className="grid gap-4 md:grid-cols-2">
         {memories.map((memory) => {
           const unlocked = state.unlockedMemories.includes(memory.id);

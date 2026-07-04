@@ -43,6 +43,38 @@ export function SettingsPage() {
             className="h-6 w-6 accent-cyan"
           />
         </label>
+        <label className="flex items-center justify-between gap-4">
+          <span>
+            <span className="block font-display text-lg text-cyan">High contrast</span>
+            <span className="text-sm text-slate-400">Boosts panel contrast for long reading sessions.</span>
+          </span>
+          <input
+            type="checkbox"
+            checked={state.settings.highContrast}
+            onChange={(event) => dispatch({ type: 'SET_SETTING', key: 'highContrast', value: event.target.checked })}
+            className="h-6 w-6 accent-cyan"
+          />
+        </label>
+        <label className="flex items-center justify-between gap-4">
+          <span>
+            <span className="block font-display text-lg text-cyan">Custom cursor effects</span>
+            <span className="text-sm text-slate-400">Adds the subtle corrupted OS cursor treatment.</span>
+          </span>
+          <input
+            type="checkbox"
+            checked={state.settings.cursorFx}
+            onChange={(event) => dispatch({ type: 'SET_SETTING', key: 'cursorFx', value: event.target.checked })}
+            className="h-6 w-6 accent-cyan"
+          />
+        </label>
+        <div className="rounded border border-white/10 bg-black/30 p-4">
+          <p className="font-display text-sm uppercase tracking-[0.22em] text-acid">system log</p>
+          <div className="mt-3 max-h-44 overflow-auto font-mono text-xs text-slate-400">
+            {state.terminalHistory.map((line, index) => (
+              <p key={`${line}-${index}`}>{line}</p>
+            ))}
+          </div>
+        </div>
         <button type="button" onClick={reset} className="secondary-cta">
           <RotateCcw size={18} />
           <span>Reset Local Save</span>
