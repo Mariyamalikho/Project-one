@@ -2,7 +2,7 @@
 
 > *Reality is breaking. Memory is corrupted.*
 
-**glitch.exe** is an interactive cyberpunk storytelling web application that combines visual novel mechanics, cinematic web animations, and immersive UI to deliver a psychological narrative experience.
+**glitch.exe** is an interactive cyberpunk storytelling web application that combines visual manga/novel mechanics, cinematic web animations, and immersive UI to deliver a psychological narrative experience.
 
 ## ✨ Features
 
