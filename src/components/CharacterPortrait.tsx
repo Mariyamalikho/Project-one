@@ -1,5 +1,5 @@
 import { motion } from 'framer-motion';
-import { Eye, Shield, Sparkles, Terminal, UserCheck } from 'lucide-react';
+import { Eye, Sparkles, Terminal, UserCheck, Zap } from 'lucide-react';
 import { characters } from '../data/world';
 import type { CharacterId } from '../types';
 
@@ -81,12 +81,12 @@ export function CharacterPortrait({ id, mood, size = 'md' }: Props) {
 
         {id === 'admin' && (
           <motion.div
-            animate={{ opacity: [0.4, 0.9, 0.4] }}
-            transition={{ duration: 1.5, repeat: Infinity }}
+            animate={{ opacity: [0.6, 1, 0.6] }}
+            transition={{ duration: 2, repeat: Infinity }}
             className="relative flex items-center justify-center"
           >
-            <div className="h-28 w-28 rounded-none border-2 border-rose-500 bg-rose-950/40 flex items-center justify-center">
-              <Shield size={48} className="text-rose-500" />
+            <div className="h-28 w-28 rounded-full border-2 border-cyan/80 bg-cyan/10 flex items-center justify-center shadow-neon">
+              <Zap size={48} className="text-cyan fill-cyan/30 animate-pulse" />
             </div>
           </motion.div>
         )}

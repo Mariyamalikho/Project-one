@@ -1,6 +1,6 @@
 import { AnimatePresence, motion } from 'framer-motion';
 import { NavLink, Route, Routes, useLocation } from 'react-router-dom';
-import { Archive, Award, BookOpen, Briefcase, GitBranch, Map, Menu, MonitorCog, Save, Sparkles, Volume2, VolumeX } from 'lucide-react';
+import { Archive, Award, BookOpen, Briefcase, GitBranch, Map, Menu, MonitorCog, Save, Sparkles, Volume2, VolumeX, Zap } from 'lucide-react';
 import { lazy, Suspense, useState } from 'react';
 import { AchievementToast } from './components/AchievementToast';
 import { AmbientAudio } from './components/AmbientAudio';
@@ -53,8 +53,9 @@ export function App() {
         {!isLanding && (
           <header className="fixed inset-x-0 top-0 z-40 border-b border-white/10 bg-void/70 backdrop-blur-xl">
             <nav className="mx-auto flex max-w-7xl items-center justify-between gap-3 px-4 py-3">
-              <NavLink to="/" className="font-display text-lg tracking-[0.28em] text-cyan">
-                glitch.exe
+              <NavLink to="/" className="font-display text-lg tracking-[0.28em] text-cyan inline-flex items-center gap-2">
+                <Zap size={18} className="text-cyan fill-cyan/30 animate-pulse" />
+                <span>glitch.exe</span>
               </NavLink>
               <div className="hidden items-center gap-1 md:flex">
                 {navItems.map((item) => (
