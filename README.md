@@ -1,38 +1,79 @@
 # glitch.exe
 
-> *Reality is breaking. Memory is corrupted.*
+> *The version you archived never stopped waiting.*
 
-**glitch.exe** is an interactive cyberpunk storytelling web application that combines visual manga/novel mechanics, cinematic web animations, and immersive UI to deliver a psychological narrative experience.
+**glitch.exe** is a cinematic interactive storytelling web application that transforms the browser into a living, corrupted operating system. Inspired by psychological sci-fi, cyberpunk aesthetics, and visual novels, it blends immersive storytelling with modern web technologies.
+
+---
 
 ## ✨ Features
 
-* 🎮 Interactive visual novel dialogue system
-* 🌆 Cinematic cyberpunk landing page
-* 👤 Character archive with unlockable lore
-* 🗺️ Interactive world map
-* 📖 Episode and chapter navigation
-* 💾 Save progress and multiple endings
-* 🧩 Memory fragment collectibles
-* 🏆 Achievement system
-* 💻 Terminal mode with hidden commands
-* 🎵 Ambient soundtrack and sound effects
-* ⚡ Smooth Framer Motion animations
-* 📱 Fully responsive design
-* 🌙 Dark futuristic UI with glitch effects
+- 🎮 Interactive visual novel dialogue system
+- 🌆 Cinematic cyberpunk landing experience
+- 👤 Character Archive
+- 🗺️ Interactive World Map
+- 📖 30-Episode story progression
+- 🧩 Memory Fragment collectibles
+- 🏆 Achievement System
+- 💻 Hidden Terminal & secret commands
+- 💾 Local save & multiple endings
+- 🎵 Ambient soundtrack
+- ⚡ Smooth Framer Motion animations
+- 📱 Fully responsive experience
 
-## 🛠️ Tech Stack
+---
 
-* React
-* TypeScript
-* Vite
-* Tailwind CSS
-* Framer Motion
-* React Router
+## 🛠 Tech Stack
 
-## 🎯 Project Goal
+- React
+- TypeScript
+- Vite
+- Tailwind CSS
+- Framer Motion
+- React Router
+- Zustand
+- Local Storage
 
-To create a premium interactive storytelling experience that feels closer to an indie narrative game than a traditional manga reader, combining emotional storytelling, cinematic design, and modern web technologies.
+---
 
-## 🚀 Status
+## 🎭 Story
 
-Currently under active development.
+You awaken inside **Echo Grid**, a corrupted digital reality with no memory of who you are.
+
+As **Evaa**, you'll explore broken memories, uncover hidden truths, and meet **Marry**, a mysterious previous version who seems to know more than she should.
+
+The world itself evolves as your journey unfolds.
+
+---
+
+## 🚀 Getting Started
+
+```bash
+npm install
+npm run dev
+```
+
+Build for production:
+
+```bash
+npm run build
+```
+
+---
+
+## 📌 Roadmap
+
+- [ ] Episode System
+- [ ] Dialogue Engine
+- [ ] World Map
+- [ ] Character Archive
+- [ ] Memory Archive
+- [ ] Hidden Terminal
+- [ ] Multiple Endings
+- [ ] Cloud Save (Optional)
+
+---
+
+## 📄 License
+
+MIT
