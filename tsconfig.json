@@ -1,4 +1,5 @@
 {
+  // TypeScript project references for glitch.exe workspace compilation
   "files": [],
   "references": [{ "path": "./tsconfig.app.json" }]
 }

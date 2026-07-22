@@ -1,4 +1,5 @@
 {
+  // App compilation settings for glitch.exe React & TypeScript codebase
   "compilerOptions": {
     "target": "ES2022",
     "useDefineForClassFields": true,
