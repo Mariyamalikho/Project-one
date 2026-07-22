@@ -50,11 +50,15 @@ function reducer(state: GameState, action: GameAction): GameState {
       const relationship = { ...state.relationship };
       Object.entries(action.choice.emotion ?? {}).forEach(([key, value]) => {
         const emotionKey = key as keyof GameState['emotion'];
-        emotion[emotionKey] = Math.max(0, Math.min(10, emotion[emotionKey] + (value ?? 0)));
+        if (emotion[emotionKey] !== undefined) {
+          emotion[emotionKey] = Math.max(0, Math.min(10, emotion[emotionKey] + (value ?? 0)));
+        }
       });
       Object.entries(action.choice.relationship ?? {}).forEach(([key, value]) => {
         const relationshipKey = key as keyof GameState['relationship'];
-        relationship[relationshipKey] = Math.max(-5, Math.min(10, relationship[relationshipKey] + (value ?? 0)));
+        if (relationship[relationshipKey] !== undefined) {
+          relationship[relationshipKey] = Math.max(-5, Math.min(10, relationship[relationshipKey] + (value ?? 0)));
+        }
       });
       return {
         ...state,
@@ -80,6 +84,12 @@ function reducer(state: GameState, action: GameAction): GameState {
       return { ...state, visitedLocations: unique([...state.visitedLocations, action.locationId]) };
     case 'UNLOCK_MEMORY':
       return { ...state, unlockedMemories: unique([...state.unlockedMemories, action.memoryId]) };
+    case 'REPAIR_MEMORY':
+      return {
+        ...state,
+        unlockedMemories: unique([...state.unlockedMemories, action.memoryId]),
+        repairedMemories: unique([...state.repairedMemories, action.memoryId]),
+      };
     case 'UNLOCK_ACHIEVEMENT':
       return { ...state, unlockedAchievements: unique([...state.unlockedAchievements, action.achievementId]) };
     case 'ADD_JOURNAL':

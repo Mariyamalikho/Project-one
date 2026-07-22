@@ -1,43 +1,117 @@
-import { FileAudio, FileImage, FileText, ShieldAlert } from 'lucide-react';
-import { easterEggs } from '../data/os';
+import { motion } from 'framer-motion';
+import { Eye, FileCode, HeadphoneOff, Image as ImageIcon, Sparkles, Wand2 } from 'lucide-react';
+import { useState } from 'react';
+import { MemoryMinigameOverlay } from '../components/MemoryMinigameOverlay';
 import { memories } from '../data/world';
+import type { MemoryFragment, MinigameType } from '../types';
 import { useGame } from '../state/GameProvider';
-
-const icons = {
-  image: FileImage,
-  audio: FileAudio,
-  text: FileText,
-  corrupt: ShieldAlert,
-};
 
 export function MemoryPage() {
   const { state } = useGame();
+  const [filter, setFilter] = useState<'all' | 'sketch' | 'photo' | 'audio' | 'terminal'>('all');
+  const [activeMinigame, setActiveMinigame] = useState<{ type: MinigameType; title: string; memoryId: string } | null>(null);
+
+  const filteredMemories = memories.filter((m) => filter === 'all' || m.kind === filter);
+
   return (
-    <section>
-      <h1 className="page-title">Memory Archive</h1>
-      <div className="mb-5 holo-panel p-4 text-sm text-slate-300">
-        <p className="font-display text-cyan">Hidden collectible routes</p>
-        <p className="mt-2">{easterEggs.join(' / ')}</p>
+    <div className="space-y-8 pb-12">
+      {/* Header */}
+      <div className="border-b border-white/10 pb-6">
+        <div className="flex items-center gap-3 text-pink">
+          <Sparkles size={24} />
+          <h2 className="font-display text-3xl uppercase tracking-wider text-slate-100">MEMORY ARCHIVE</h2>
+        </div>
+        <p className="mt-2 text-sm text-slate-400 font-mono">
+          Recovered digital sketches, polaroids, voice logs, and corrupted ciphers.
+        </p>
       </div>
-      <div className="grid gap-4 md:grid-cols-2">
-        {memories.map((memory) => {
-          const unlocked = state.unlockedMemories.includes(memory.id);
-          const Icon = icons[memory.kind];
+
+      {/* Filter Tabs */}
+      <div className="flex flex-wrap gap-2">
+        {(['all', 'sketch', 'photo', 'audio', 'terminal'] as const).map((kind) => (
+          <button
+            key={kind}
+            type="button"
+            onClick={() => setFilter(kind)}
+            className={`rounded-full border px-4 py-1.5 font-mono text-xs uppercase tracking-wider transition-all ${
+              filter === kind
+                ? 'border-cyan bg-cyan/20 text-cyan shadow-neon'
+                : 'border-white/10 bg-white/5 text-slate-400 hover:border-white/30'
+            }`}
+          >
+            {kind}
+          </button>
+        ))}
+      </div>
+
+      {/* Memories Grid */}
+      <div className="grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
+        {filteredMemories.map((mem) => {
+          const unlocked = state.unlockedMemories.includes(mem.id);
+          const repaired = state.repairedMemories?.includes(mem.id);
+
           return (
-            <article key={memory.id} className={`holo-panel overflow-hidden ${unlocked ? '' : 'opacity-60'}`}>
-              <div className="h-36 border-b border-white/10" style={{ background: unlocked ? memory.image ?? 'linear-gradient(135deg,#111827,#31f7ff22)' : 'repeating-linear-gradient(90deg,#111,#111 8px,#191919 8px,#191919 16px)' }} />
-              <div className="p-5">
-                <div className="flex items-center gap-3 text-cyan">
-                  <Icon size={18} />
-                  <span className="text-xs uppercase tracking-[0.24em]">{memory.kind}</span>
+            <motion.div
+              key={mem.id}
+              whileHover={{ y: -4 }}
+              className={`relative flex flex-col justify-between rounded-2xl border p-5 transition-all ${
+                unlocked
+                  ? 'border-white/20 bg-void-dark/90 backdrop-blur-md shadow-lg'
+                  : 'border-white/5 bg-black/40 opacity-40'
+              }`}
+            >
+              <div>
+                <div className="flex items-center justify-between text-xs font-mono mb-3">
+                  <span className="text-cyan uppercase">{mem.kind} FRAGMENT</span>
+                  <span className={unlocked ? 'text-pink font-bold' : 'text-slate-600'}>
+                    {repaired ? 'RECONSTRUCTED' : unlocked ? 'UNLOCKED' : 'LOCKED'}
+                  </span>
                 </div>
-                <h2 className="mt-3 font-display text-2xl">{unlocked ? memory.title : 'Encrypted Fragment'}</h2>
-                <p className="mt-3 text-slate-300">{unlocked ? memory.body : 'Collect this memory during story choices to decrypt the file.'}</p>
+
+                <h4 className="font-display text-lg text-slate-100">{mem.title}</h4>
+                <p className="mt-2 text-xs text-slate-300 leading-relaxed">
+                  {unlocked ? mem.body : 'Encrypted subconscious data block. Explore story episodes to unlock.'}
+                </p>
+
+                {unlocked && mem.image && (
+                  <div
+                    className="mt-4 h-32 w-full rounded-xl border border-white/20 p-4 flex items-center justify-center text-center font-display text-xs text-white"
+                    style={{ background: mem.image }}
+                  >
+                    <span>{mem.title}</span>
+                  </div>
+                )}
               </div>
-            </article>
+
+              {unlocked && mem.minigame && !repaired && (
+                <button
+                  onClick={() =>
+                    setActiveMinigame({
+                      type: mem.minigame!,
+                      title: mem.title,
+                      memoryId: mem.id,
+                    })
+                  }
+                  type="button"
+                  className="mt-4 flex w-full items-center justify-center gap-2 rounded-xl border border-pink/60 bg-pink/15 py-2.5 font-mono text-xs uppercase tracking-wider text-pink hover:bg-pink hover:text-black transition-all"
+                >
+                  <Wand2 size={14} />
+                  <span>Launch Reconstruction Minigame</span>
+                </button>
+              )}
+            </motion.div>
           );
         })}
       </div>
-    </section>
+
+      {activeMinigame && (
+        <MemoryMinigameOverlay
+          type={activeMinigame.type}
+          title={activeMinigame.title}
+          memoryId={activeMinigame.memoryId}
+          onClose={() => setActiveMinigame(null)}
+        />
+      )}
+    </div>
   );
 }

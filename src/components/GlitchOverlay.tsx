@@ -2,12 +2,12 @@ import { AnimatePresence, motion } from 'framer-motion';
 import { useEffect, useMemo, useState } from 'react';
 import { useGame } from '../state/GameProvider';
 
-const messages = ['FRAME LOST', 'MARRY_SIGNAL', 'DO NOT DELETE HER', 'MEMORY LEAK', 'EVAa://awake'];
+const messages = ['FRAME LOST', 'MARRY_SIGNAL', 'DO NOT DELETE HER', 'MEMORY LEAK', 'EVAA://awake'];
 
 export function GlitchOverlay() {
   const { state, dispatch } = useGame();
   const [active, setActive] = useState(false);
-  const intensity = Math.min(1, (state.emotion.dread + state.unlockedMemories.length + state.completedEpisodes.length) / 18);
+  const intensity = Math.min(1, (state.emotion.suppression + state.unlockedMemories.length + state.completedEpisodes.length) / 18);
   const message = useMemo(() => messages[(state.unlockedMemories.length + state.completedEpisodes.length) % messages.length], [state.completedEpisodes.length, state.unlockedMemories.length]);
 
   useEffect(() => {
