@@ -1,0 +1,11 @@
+import{c as s,u as c,j as e,I as d}from"./index-DYAVCdCT.js";/**
+ * @license lucide-react v0.468.0 - ISC
+ *
+ * This source code is licensed under the ISC license.
+ * See the LICENSE file in the root directory of this source tree.
+ */const r=s("CloudOff",[["path",{d:"m2 2 20 20",key:"1ooewy"}],["path",{d:"M5.782 5.782A7 7 0 0 0 9 19h8.5a4.5 4.5 0 0 0 1.307-.193",key:"yfwify"}],["path",{d:"M21.532 16.5A4.5 4.5 0 0 0 17.5 10h-1.79A7.008 7.008 0 0 0 10 5.07",key:"jlfiyv"}]]);/**
+ * @license lucide-react v0.468.0 - ISC
+ *
+ * This source code is licensed under the ISC license.
+ * See the LICENSE file in the root directory of this source tree.
+ */const o=s("Download",[["path",{d:"M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4",key:"ih7n3h"}],["polyline",{points:"7 10 12 15 17 10",key:"2ggqvy"}],["line",{x1:"12",x2:"12",y1:"15",y2:"3",key:"1vk2je"}]]);function x(){const{slots:t,state:l,writeSlot:n,loadSlot:i}=c();return e.jsxs("section",{children:[e.jsx("h1",{className:"page-title",children:"Save Slots"}),e.jsxs("div",{className:"mb-5 holo-panel flex flex-wrap items-center gap-3 p-4 text-sm text-slate-300",children:[e.jsx(r,{className:"text-warning",size:18}),e.jsx("span",{children:"Cloud save adapter is prepared as an optional future layer. Current saves are local and private."})]}),e.jsx("div",{className:"grid gap-4 lg:grid-cols-3",children:t.map(a=>e.jsxs("article",{className:`holo-panel p-5 ${l.activeSlot===a.id?"border-cyan/60 shadow-neon":""}`,children:[e.jsx("p",{className:"text-xs uppercase tracking-[0.24em] text-cyan",children:a.label}),e.jsx("h2",{className:"mt-3 font-display text-2xl",children:a.state?"Recovered Save":"Empty Slot"}),e.jsx("p",{className:"mt-2 text-sm text-slate-400",children:a.savedAt?new Date(a.savedAt).toLocaleString():"No manual save written yet."}),e.jsxs("div",{className:"mt-6 flex flex-wrap gap-2",children:[e.jsxs("button",{className:"secondary-cta",type:"button",onClick:()=>n(a.id),children:[e.jsx(d,{size:17}),e.jsx("span",{children:"Save"})]}),e.jsxs("button",{className:"secondary-cta",type:"button",disabled:!a.state,onClick:()=>i(a.id),children:[e.jsx(o,{size:17}),e.jsx("span",{children:"Load"})]})]})]},a.id))})]})}export{x as SaveSlotsPage};

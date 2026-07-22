@@ -185,7 +185,7 @@ export function StoryPage() {
               </div>
 
               <div className="min-h-24 text-lg leading-relaxed text-slate-100 font-body">
-                <Typewriter text={line.text} speed={state.settings.typewriterSpeed || 25} />
+                <Typewriter text={line.text} />
               </div>
 
               {/* Choices / Actions */}

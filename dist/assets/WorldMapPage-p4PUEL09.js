@@ -1,6 +1,0 @@
-import{a as t,u as r,j as e,P as p,F as d}from"./index-r6nc2Ojz.js";import{L as l}from"./lock-CA5RFg1R.js";/**
- * @license lucide-react v0.468.0 - ISC
- *
- * This source code is licensed under the ISC license.
- * See the LICENSE file in the root directory of this source tree.
- */const c=t("MapPin",[["path",{d:"M20 10c0 4.993-5.539 10.193-7.399 11.799a1 1 0 0 1-1.202 0C9.539 20.193 4 14.993 4 10a8 8 0 0 1 16 0",key:"1r0f0z"}],["circle",{cx:"12",cy:"10",r:"3",key:"ilqhr7"}]]);function m(){const{state:n,dispatch:i}=r();return e.jsxs("section",{children:[e.jsx("h1",{className:"page-title",children:"World Map"}),e.jsxs("div",{className:"holo-panel relative min-h-[620px] overflow-hidden p-4",children:[e.jsx("div",{className:"absolute inset-0 bg-[linear-gradient(rgba(49,247,255,.07)_1px,transparent_1px),linear-gradient(90deg,rgba(49,247,255,.07)_1px,transparent_1px)] bg-[size:44px_44px]"}),p.map(s=>{const a=n.visitedLocations.includes(s.id);return e.jsxs(d.button,{type:"button",className:`map-node ${a?"map-node-open":"map-node-locked"}`,style:{left:`${s.x}%`,top:`${s.y}%`},onClick:()=>a&&i({type:"VISIT_LOCATION",locationId:s.id}),whileHover:{scale:a?1.06:1},children:[a?e.jsx(c,{size:18}):e.jsx(l,{size:18}),e.jsx("span",{children:s.name}),e.jsx("small",{children:s.subtitle})]},s.id)})]})]})}export{m as WorldMapPage};
